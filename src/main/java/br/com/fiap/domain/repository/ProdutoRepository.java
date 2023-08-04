@@ -48,4 +48,10 @@ public class ProdutoRepository {
         return retorno;
     }
 
+    public static Produto persist(Produto p) {
+        p.setId(produtos.size()+1L);
+        produtos.add(p);
+        return p;
+    }
+
 }
