@@ -3,32 +3,36 @@ package br.com.fiap.domain.repository;
 import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.entity.ProdutoEstocado;
 import br.com.fiap.domain.entity.Deposito;
+import br.com.fiap.domain.repository.abstracao.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoEstocadoRepository {
-    private static List<ProdutoEstocado> itens;
+public class ProdutoEstocadoRepository implements Repository<ProdutoEstocado, Long> {
+    ProdutoRepository produtoRepository = new ProdutoRepository()
+
+;    private static List<ProdutoEstocado> itens;
 
     static{
         itens = new ArrayList<>();
-
-        ProdutoEstocado prod1 = new ProdutoEstocado();
-        prod1.setId(1L).setDeposito(DepositoRepository.findById(1L)).setProduto(ProdutoRepository.findById(1L)).setNumeroDeSerie("00019");
-        itens.add(prod1);
     }
 
-    public static List<ProdutoEstocado> findAll(){
+    public List<ProdutoEstocado> findAll(){
         return itens;
     }
 
-    public static ProdutoEstocado findById(Long id){
+    public ProdutoEstocado findById(Long id){
         for (ProdutoEstocado p: itens) {
             if (p.getId().equals(id)){
                 return p;
             }
         }
         return null;
+    }
+
+    @Override
+    public List<ProdutoEstocado> findbyName(String text) {
+        return itens.stream().filter(pe -> pe.getProduto().getNome().equalsIgnoreCase(text)).toList();
     }
 
     public static List<ProdutoEstocado> findByProduto(Produto p){
@@ -52,7 +56,7 @@ public class ProdutoEstocadoRepository {
                 .toList();
     }
 
-    public static ProdutoEstocado persist(ProdutoEstocado pe){
+    public ProdutoEstocado persist(ProdutoEstocado pe){
         pe.setId(itens.size()+1L);
         itens.add(pe);
         return pe;

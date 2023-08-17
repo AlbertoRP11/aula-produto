@@ -1,12 +1,14 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.Deposito;
+import br.com.fiap.domain.entity.Produto;
+import br.com.fiap.domain.repository.abstracao.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DepositoRepository {
+public class DepositoRepository implements Repository<Deposito, Long> {
     private static List<Deposito> depositos;
 
     static{
@@ -27,17 +29,22 @@ public class DepositoRepository {
 
     }
 
-    public static List<Deposito> findAll(){
+    public List<Deposito> findAll(){
         return depositos;
     }
 
-    public static Deposito findById(Long id){
+    public Deposito findById(Long id){
         for(int i=0; i<depositos.size(); i++){
             if (depositos.get(i).getId().equals(id)){
                 return depositos.get(i);
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Deposito> findbyName(String text) {
+        return depositos.stream().filter( d -> d.getNome().equalsIgnoreCase( text ) ).toList();
     }
 
     public static List<Deposito> findByName(String texto){
@@ -50,7 +57,7 @@ public class DepositoRepository {
         return depositosEncontrados;
     }
 
-    public static Deposito persist(Deposito d){
+    public Deposito persist(Deposito d){
         d.setId(depositos.size() + 1L);
         depositos.add(d);
         return d;

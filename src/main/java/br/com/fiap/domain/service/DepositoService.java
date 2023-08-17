@@ -7,9 +7,10 @@ import java.util.Objects;
 
 public class DepositoService {
     public static Deposito persist(Deposito d){
+        DepositoRepository depositoRepository = new DepositoRepository();
         if (Objects.isNull(d.getNome())){
             return null;
         }
-        return DepositoRepository.persist(d);
+        return depositoRepository.persist(d);
     }
 }

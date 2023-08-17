@@ -8,13 +8,14 @@ import java.util.Objects;
 public class ProdutoService {
 
     public static Produto persist(Produto p){
+        ProdutoRepository produtoRepository = new ProdutoRepository();
         if(Objects.isNull(p.getNome())){
             return null;
         }
         if (Objects.isNull(p.getDescricao())) return null;
         if (Objects.isNull(p.getValor())) return null;
 
-        return ProdutoRepository.persist(p);
+        return produtoRepository.persist(p);
     }
 
 }
